@@ -27,3 +27,18 @@ from home directory on FreeBSD box
 ```
 /compat/ubuntu/opt/Obsidian/obsidian --no-sandbox --disable-gpu
 ```
+
+## NOTES
+Running a linux binary that makes calls to inotify on FreeBSD returns:
+```text
+linux: jid 0 pid 33527 (notify): syscall inotify_init not implemented
+linux: jid 0 pid 33527 (notify): syscall inotify_add_watch not implemented
+linux: jid 0 pid 33527 (notify): syscall inotify_rm_watch not implemented
+```
+
+Obsidian binary returns and spins forever on waiting for inotify to return:
+```text
+[    0.000000] linux: jid 0 pid 31258 (DedicatedWorker): syscall inotify_init1 not implemented
+[    0.000000] linux: jid 0 pid 31195 (ThreadPoolForeg): syscall inotify_init1 not implemented
+[    0.000000] linux: jid 0 pid 31195 (ThreadPoolForeg): syscall inotify_init not implemented
+```
