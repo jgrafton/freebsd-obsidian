@@ -7,27 +7,29 @@ the Linux inotify file watching system isn't supported in FreeBSD.  I really
 like using Obsidian and I'd like it to run on FreeBSD so this is my attempt at
 making it work.
 
+This project borrows heavily from the [linux-browser-install](https://github.com/mrclksr/linux-browser-installer.git) repository
+
 ## first attempt, stub inotify calls to just return positive
 
 in sys/compat/linux
 
 
-
 ## second attempt, overload syscalls to inotify similar to fakeroot
 
-## install Obsidian on FreeBSD procedure
-Use the linux-browser-installer to install an Ubuntu file system that supports
-chrome
-https://github.com/mrclksr/linux-browser-installer.git
 
-install obsidian into ubuntu chroot env by downloading deb package from [Obsidian](obsidian.md)
+
+
+## install Obsidian
 ```
-# cp obsidian.deb /compat/ubuntu/root
-# chroot /compat/ubuntu /bin/bash
-# dpkg -i /root/obsidian.deb
+# ./ob-installer install
 ```
 
-from home directory on FreeBSD box
+## deinstall Obsidian
+```
+# ./ob-installer deinstall
+```
+
+Execute Obsidian from home directory on FreeBSD box:
 ```
 /compat/ubuntu/opt/Obsidian/obsidian --no-sandbox --disable-gpu
 ```
