@@ -9,9 +9,9 @@ bindir="${prefix}/bin"
 appsdir="${prefix}/share/applications"
 chroot_bindir="${chroot_path}/bin"
 
-obsidian_ver=1.0.3
-obsidian_deb=obsidian_${obsidian_ver}_amd64.deb
-obsidian_url=https://github.com/obsidianmd/obsidian-releases/releases/download/v${obsidian_ver}/${obsidian_deb}
+obsidian_ver="1.0.3"
+obsidian_deb="obsidian_${obsidian_ver}_amd64.deb"
+obsidian_url="https://github.com/obsidianmd/obsidian-releases/releases/download/v${obsidian_ver}/${obsidian_deb}"
 
 apt_packages="libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 xdg-utils libatspi2.0-0 libsecret-1-0"
 pkg_list="debootstrap"
@@ -128,7 +128,7 @@ install_obsidian()
 	fetch -o ${chroot_path} "${obsidian_url}"
 
 	chroot ${chroot_path} /bin/bash -c "apt update"
-	chroot ${chroot_path} /bin/bash -c "dpkg -i ${chroot_path}/${obsidan_deb}"
+	chroot ${chroot_path} /bin/bash -c "dpkg -i /${obsidian_deb}"
 
 #	chroot ${chroot_path} /bin/bash -c "apt install -y google-chrome-stable" || \
 #		bail "'apt install -y google-chrome-stable' failed"
@@ -149,102 +149,6 @@ deinstall_obsidian()
 #	rm -f "${appsdir}/linux-chrome.desktop"
 #	rm -f "${bindir}/linux-chrome"
 #	rm -f "${chroot_bindir}/chrome"
-}
-
-install_brave()
-{
-	if [ -x ${chroot_path}/opt/brave.com/brave/brave ]; then
-		echo "Brave already installed" >&2
-		exit 1
-	fi
-	chroot ${chroot_path} /bin/bash -c \
-		"apt install -y apt-transport-https curl" || \
-		bail "'apt install -y apt-transport-https curl' failed"
-	chroot ${chroot_path} /bin/bash -c \
-		'curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -' || \
-		bail "'curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -' failed"
-	chroot ${chroot_path} /bin/bash -c \
-		'echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" > /etc/apt/sources.list.d/brave-browser-release.list'
-	chroot ${chroot_path} /bin/bash -c "apt update"
-	chroot ${chroot_path} /bin/bash -c "apt install -y brave-browser" || \
-		bail "'apt install -y brave-browser' failed"
-	[ -d "${chroot_path}/${prefix}/share/fonts" ] && \
-		rmdir "${chroot_path}/${prefix}/share/fonts"
-	install -m 555 chroot/bin/brave "${chroot_bindir}"
-	install -m 555 bin/linux-brave "${bindir}"
-	install -m 0644 linux-brave.desktop "${appsdir}"
-}
-
-deinstall_brave()
-{
-	chroot ${chroot_path} /bin/bash -c "apt remove -y brave-browser"
-	rm -f "${appsdir}/linux-brave.desktop"
-	rm -f "${bindir}/linux-brave"
-	rm -f "${chroot_bindir}/brave"
-}
-
-install_vivaldi()
-{
-	if [ -x ${chroot_path}/opt/vivaldi/vivaldi ]; then
-		echo "Vivaldi already installed" >&2
-		exit 1
-	fi
-	echo "deb [arch=amd64] https://repo.vivaldi.com/archive/deb/ " \
-	     "stable main" > \
-		"${chroot_path}/etc/apt/sources.list.d/vivaldi.list"
-	fetch -o ${chroot_path} \
-		https://repo.vivaldi.com/archive/linux_signing_key.pub || exit 1
-	chroot ${chroot_path} /bin/bash -c "apt-key add linux_signing_key.pub" || \
-		bail "'apt-key add linux_signing_key.pub' failed"
-	chroot ${chroot_path} /bin/bash -c "apt update"
-	chroot ${chroot_path} /bin/bash -c "apt install -y vivaldi-stable" || \
-		bail "'apt install -y vivaldi-stable' failed"
-	[ -d "${chroot_path}/${prefix}/share/fonts" ] && \
-		rmdir "${chroot_path}/${prefix}/share/fonts"
-	install -m 555 chroot/bin/vivaldi "${chroot_bindir}"
-	install -m 555 bin/linux-vivaldi "${bindir}"
-	install -m 0644 linux-vivaldi.desktop "${appsdir}"
-}
-
-deinstall_vivaldi()
-{
-	chroot ${chroot_path} /bin/bash -c "apt remove -y vivaldi-stable" || \
-		bail "'apt remove -y vivaldi-stable' failed"
-	rm -f "${appsdir}/linux-vivaldi.desktop"
-	rm -f "${bindir}/linux-vivaldi"
-	rm -f "${chroot_bindir}/vivaldi"
-}
-
-install_edge()
-{
-	if [ -x ${chroot_path}/opt/microsoft/msedge/microsoft-edge]; then
-		echo "Edge already installed" >&2
-		exit 1
-	fi
-	chroot ${chroot_path} /bin/bash -c \
-		"apt install -y apt-transport-https curl" || \
-		bail "'apt install -y apt-transport-https curl' failed"
-	chroot ${chroot_path} /bin/bash -c \
-		'curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | apt-key --keyring /etc/apt/trusted.gpg.d/microsoft.gpg add -' || \
-		bail "'curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | apt-key --keyring /etc/apt/trusted.gpg.d/microsoft.gpg add -' failed"
-	chroot ${chroot_path} /bin/bash -c \
-		'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-stable.list'
-	chroot ${chroot_path} /bin/bash -c "apt update"
-	chroot ${chroot_path} /bin/bash -c "apt install -y microsoft-edge-stable" || \
-		bail "'apt install -y microsoft-edge-stable' failed"
-	[ -d "${chroot_path}/${prefix}/share/fonts" ] && \
-		rmdir "${chroot_path}/${prefix}/share/fonts"
-	install -m 555 chroot/bin/edge "${chroot_bindir}"
-	install -m 555 bin/linux-edge "${bindir}"
-	install -m 0644 linux-edge.desktop "${appsdir}"
-}
-
-deinstall_edge()
-{
-	chroot ${chroot_path} /bin/bash -c "apt remove -y microsoft-edge-stable"
-	rm -f "${appsdir}/linux-edge.desktop"
-	rm -f "${bindir}/linux-edge"
-	rm -f "${chroot_bindir}/edge"
 }
 
 symlink_icons()
