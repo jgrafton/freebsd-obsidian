@@ -9,6 +9,10 @@ making it work.
 
 ## first attempt, stub inotify calls to just return positive
 
+in sys/compat/linux
+
+
+
 ## second attempt, overload syscalls to inotify similar to fakeroot
 
 ## install Obsidian on FreeBSD procedure
