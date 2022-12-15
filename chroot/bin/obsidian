@@ -1,0 +1,11 @@
+#!/compat/ubuntu/bin/bash
+#
+# chrome wrapper script from patovm04:
+# https://forums.freebsd.org/threads/linuxulator-how-to-run-google-chrome-linux-binary-on-freebsd.77559/
+#
+export OBSIDIAN_PATH="/opt/Obsidian/obsidian"
+#export CHROME_WRAPPER="$(readlink -f "$0")"
+export LD_LIBRARY_PATH=/usr/local/steam-utils/lib64/fakeudev
+export LD_PRELOAD=/usr/local/steam-utils/lib64/webfix/webfix.so
+export LIBGL_DRI3_DISABLE=1
+exec -a "$0" "$OBSIDIAN_PATH" --no-sandbox --no-zygote --test-type --disable-gpu --v=0 "$@"

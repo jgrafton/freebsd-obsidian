@@ -9,16 +9,6 @@ making it work.
 
 This project borrows heavily from the [linux-browser-install](https://github.com/mrclksr/linux-browser-installer.git) repository
 
-## first attempt, stub inotify calls to just return positive
-
-in sys/compat/linux
-
-
-## second attempt, overload syscalls to inotify similar to fakeroot
-
-
-
-
 ## install Obsidian
 ```
 # ./ob-installer install
@@ -29,9 +19,9 @@ in sys/compat/linux
 # ./ob-installer deinstall
 ```
 
-Execute Obsidian from home directory on FreeBSD box:
+Run Obisidian
 ```
-/compat/ubuntu/opt/Obsidian/obsidian --no-sandbox --disable-gpu
+/usr/local/bin/linux-obsidian
 ```
 
 ## NOTES

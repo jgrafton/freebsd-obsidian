@@ -2,7 +2,8 @@
 
 prefix=/usr/local
 chroot_path=/compat/ubuntu
-ubuntu_version=focal
+#ubuntu_version=focal
+ubuntu_version=jammy
 ld_version=2.31
 
 bindir="${prefix}/bin"
@@ -13,7 +14,7 @@ obsidian_ver="1.0.3"
 obsidian_deb="obsidian_${obsidian_ver}_amd64.deb"
 obsidian_url="https://github.com/obsidianmd/obsidian-releases/releases/download/v${obsidian_ver}/${obsidian_deb}"
 
-apt_packages="libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 xdg-utils libatspi2.0-0 libsecret-1-0"
+apt_packages="libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 xdg-utils libatspi2.0-0 libsecret-1-0 build-essential libc6-dev-i386"
 pkg_list="debootstrap"
 
 chroot_mount_points="
@@ -133,11 +134,11 @@ install_obsidian()
 #	chroot ${chroot_path} /bin/bash -c "apt install -y google-chrome-stable" || \
 #		bail "'apt install -y google-chrome-stable' failed"
 #
-#	[ -d "${chroot_path}/${prefix}/share/fonts" ] && \
-#		rmdir "${chroot_path}/${prefix}/share/fonts"
+	[ -d "${chroot_path}/${prefix}/share/fonts" ] && \
+	    rmdir "${chroot_path}/${prefix}/share/fonts"
 
-#	install -m 555 chroot/bin/chrome "${chroot_bindir}"
-#	install -m 555 bin/linux-chrome "${bindir}"
+    install -m 555 chroot/bin/obsidian "${chroot_bindir}"
+	install -m 555 bin/linux-obsidan "${bindir}"
 #	install -m 0644 linux-chrome.desktop "${appsdir}"
 
 }
@@ -147,8 +148,8 @@ deinstall_obsidian()
 	chroot ${chroot_path} /bin/bash -c "apt remove -y obsidian" || \
 		bail "'apt remove -y obsidian' failed"
 #	rm -f "${appsdir}/linux-chrome.desktop"
-#	rm -f "${bindir}/linux-chrome"
-#	rm -f "${chroot_bindir}/chrome"
+	rm -f "${bindir}/linux-obsidian"
+	rm -f "${chroot_bindir}/obsidian"
 }
 
 symlink_icons()
@@ -209,7 +210,7 @@ install_chroot_base()
 	echo "deb http://archive.ubuntu.com/ubuntu/ ${ubuntu_version} " \
 	     "main restricted universe multiverse" > \
 		${chroot_path}/etc/apt/sources.list
-	fix_ld_path
+	#fix_ld_path
 	set_timezone
 	service ubuntu start
 	install_apt_packages
