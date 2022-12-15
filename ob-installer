@@ -2,9 +2,7 @@
 
 prefix=/usr/local
 chroot_path=/compat/ubuntu
-#ubuntu_version=focal
 ubuntu_version=jammy
-ld_version=2.31
 
 bindir="${prefix}/bin"
 appsdir="${prefix}/share/applications"
@@ -95,10 +93,17 @@ install_packages()
 
 fix_ld_path()
 {
+    # 64 bit
 	(cd ${chroot_path}/lib64 && \
 		(unlink ./ld-linux-x86-64.so.2; \
 			ln -s ../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 \
 			ld-linux-x86-64.so.2))
+
+    # 32 bit
+	(cd ${chroot_path}/lib && \
+		(unlink ./ld-linux.so.2; \
+			ln -s ../lib32/ld-linux.so.2 ld-linux-so.2))
+
 }
 
 install_apt_packages()
