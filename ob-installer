@@ -14,7 +14,7 @@ obsidian_ver="1.0.3"
 obsidian_deb="obsidian_${obsidian_ver}_amd64.deb"
 obsidian_url="https://github.com/obsidianmd/obsidian-releases/releases/download/v${obsidian_ver}/${obsidian_deb}"
 
-apt_packages="libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 xdg-utils libatspi2.0-0 libsecret-1-0 build-essential libc6-dev-i386"
+apt_packages="libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 xdg-utils libatspi2.0-0 libsecret-1-0 libgbm-dev libasound2-dev libbuild-essential libc6-dev-i386"
 pkg_list="debootstrap"
 
 chroot_mount_points="
@@ -97,7 +97,7 @@ fix_ld_path()
 {
 	(cd ${chroot_path}/lib64 && \
 		(unlink ./ld-linux-x86-64.so.2; \
-			ln -s ../lib/x86_64-linux-gnu/ld-${ld_version}.so \
+			ln -s ../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 \
 			ld-linux-x86-64.so.2))
 }
 
@@ -131,14 +131,11 @@ install_obsidian()
 	chroot ${chroot_path} /bin/bash -c "apt update"
 	chroot ${chroot_path} /bin/bash -c "dpkg -i /${obsidian_deb}"
 
-#	chroot ${chroot_path} /bin/bash -c "apt install -y google-chrome-stable" || \
-#		bail "'apt install -y google-chrome-stable' failed"
-#
-	[ -d "${chroot_path}/${prefix}/share/fonts" ] && \
-	    rmdir "${chroot_path}/${prefix}/share/fonts"
+#	[ -d "${chroot_path}/${prefix}/share/fonts" ] && \
+#	    rmdir "${chroot_path}/${prefix}/share/fonts"
 
     install -m 555 chroot/bin/obsidian "${chroot_bindir}"
-	install -m 555 bin/linux-obsidan "${bindir}"
+	install -m 555 bin/linux-obsidian "${bindir}"
 #	install -m 0644 linux-chrome.desktop "${appsdir}"
 
 }
@@ -210,7 +207,7 @@ install_chroot_base()
 	echo "deb http://archive.ubuntu.com/ubuntu/ ${ubuntu_version} " \
 	     "main restricted universe multiverse" > \
 		${chroot_path}/etc/apt/sources.list
-	#fix_ld_path
+	fix_ld_path
 	set_timezone
 	service ubuntu start
 	install_apt_packages
