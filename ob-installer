@@ -7,12 +7,14 @@ ubuntu_version=jammy
 bindir="${prefix}/bin"
 appsdir="${prefix}/share/applications"
 chroot_bindir="${chroot_path}/bin"
+chroot_libx86_64dir="${chroot_path}/lib/x86_64-linux-gnu"
+chroot_lib64dir="${chroot_path}/lib64"
 
 obsidian_ver="1.0.3"
 obsidian_deb="obsidian_${obsidian_ver}_amd64.deb"
 obsidian_url="https://github.com/obsidianmd/obsidian-releases/releases/download/v${obsidian_ver}/${obsidian_deb}"
 
-apt_packages="libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 xdg-utils libatspi2.0-0 libsecret-1-0 libgbm-dev libasound2-dev libbuild-essential libc6-dev-i386"
+apt_packages="libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 xdg-utils libatspi2.0-0 libsecret-1-0 libgbm-dev libasound2-dev build-essential"
 pkg_list="debootstrap"
 
 chroot_mount_points="
@@ -141,6 +143,19 @@ install_obsidian()
 
     install -m 555 chroot/bin/obsidian "${chroot_bindir}"
 	install -m 555 bin/linux-obsidian "${bindir}"
+
+    install -m 644 chroot/lib/x86_64-linux-gnu/libbsd-compat.a "${chroot_libx86_64dir}"
+    install -m 644 chroot/lib/x86_64-linux-gnu/libbsd.a "${chroot_libx86_64dir}"
+    install -m 644 chroot/lib/x86_64-linux-gnu/libbsd.so "${chroot_libx86_64dir}"
+    install -m 644 chroot/lib/x86_64-linux-gnu/libbsd.so.1 "${chroot_libx86_64dir}"
+    install -m 644 chroot/lib/x86_64-linux-gnu/libbsd_p.a "${chroot_libx86_64dir}"
+
+    install -m 644 chroot/lib64/libinotify.a "${chroot_lib64dir}"
+    install -m 644 chroot/lib64/libinotify.la "${chroot_lib64dir}"
+    install -m 644 chroot/lib64/libinotify.so "${chroot_lib64dir}"
+    install -m 644 chroot/lib64/libinotify.so.0 "${chroot_lib64dir}"
+    install -m 644 chroot/lib64/libinotify.so.0.0.0 "${chroot_lib64dir}"
+
 #	install -m 0644 linux-chrome.desktop "${appsdir}"
 
 }

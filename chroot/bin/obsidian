@@ -6,6 +6,6 @@
 export OBSIDIAN_PATH="/opt/Obsidian/obsidian"
 #export CHROME_WRAPPER="$(readlink -f "$0")"
 export LD_LIBRARY_PATH=/usr/local/steam-utils/lib64/fakeudev
-export LD_PRELOAD=/usr/local/steam-utils/lib64/webfix/webfix.so
+export LD_PRELOAD=/usr/local/steam-utils/lib64/webfix/webfix.so:/compat/ubuntu/lib64/libinotify.so
 export LIBGL_DRI3_DISABLE=1
 exec -a "$0" "$OBSIDIAN_PATH" --no-sandbox --no-zygote --test-type --disable-gpu --v=0 "$@"
