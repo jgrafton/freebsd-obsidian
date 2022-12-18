@@ -25,6 +25,7 @@ ubuntu_start()
 	local _emul_path _tmpdir
 
 	load_kld -e 'linux(aout|elf)' linux
+	load_kld -e 'linux_libbsd' linux_libbsd
 	case `sysctl -n hw.machine_arch` in
 	amd64)
 		load_kld -e 'linux64elf' linux64

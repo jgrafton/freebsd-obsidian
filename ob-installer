@@ -10,6 +10,9 @@ chroot_bindir="${chroot_path}/bin"
 chroot_libx86_64dir="${chroot_path}/lib/x86_64-linux-gnu"
 chroot_lib64dir="${chroot_path}/lib64"
 
+libbsd_repo="https://github.com/wulf7/linux-libbsd.git"
+libbsd_patch="${libbsd_dir}/libbsd.patch"
+
 obsidian_ver="1.0.3"
 obsidian_deb="obsidian_${obsidian_ver}_amd64.deb"
 obsidian_url="https://github.com/obsidianmd/obsidian-releases/releases/download/v${obsidian_ver}/${obsidian_deb}"
@@ -95,13 +98,13 @@ install_packages()
 
 fix_ld_path()
 {
-    # 64 bit
+	# 64 bit
 	(cd ${chroot_path}/lib64 && \
 		(unlink ./ld-linux-x86-64.so.2; \
 			ln -s ../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 \
 			ld-linux-x86-64.so.2))
 
-    # 32 bit
+	# 32 bit
 	(cd ${chroot_path}/lib && \
 		(unlink ./ld-linux.so.2; \
 			ln -s ../lib32/ld-linux.so.2 ld-linux-so.2))
@@ -139,25 +142,30 @@ install_obsidian()
 	chroot ${chroot_path} /bin/bash -c "dpkg -i /${obsidian_deb}"
 
 #	[ -d "${chroot_path}/${prefix}/share/fonts" ] && \
-#	    rmdir "${chroot_path}/${prefix}/share/fonts"
+#		rmdir "${chroot_path}/${prefix}/share/fonts"
 
-    install -m 555 chroot/bin/obsidian "${chroot_bindir}"
+	install -m 555 chroot/bin/obsidian "${chroot_bindir}"
 	install -m 555 bin/linux-obsidian "${bindir}"
 
-    install -m 644 chroot/lib/x86_64-linux-gnu/libbsd-compat.a "${chroot_libx86_64dir}"
-    install -m 644 chroot/lib/x86_64-linux-gnu/libbsd.a "${chroot_libx86_64dir}"
-    install -m 644 chroot/lib/x86_64-linux-gnu/libbsd.so "${chroot_libx86_64dir}"
-    install -m 644 chroot/lib/x86_64-linux-gnu/libbsd.so.1 "${chroot_libx86_64dir}"
-    install -m 644 chroot/lib/x86_64-linux-gnu/libbsd_p.a "${chroot_libx86_64dir}"
+	install -m 644 chroot/lib/x86_64-linux-gnu/libbsd-compat.a "${chroot_libx86_64dir}"
+	install -m 644 chroot/lib/x86_64-linux-gnu/libbsd.a "${chroot_libx86_64dir}"
+	install -m 644 chroot/lib/x86_64-linux-gnu/libbsd.so "${chroot_libx86_64dir}"
+	install -m 644 chroot/lib/x86_64-linux-gnu/libbsd.so.1 "${chroot_libx86_64dir}"
+	install -m 644 chroot/lib/x86_64-linux-gnu/libbsd_p.a "${chroot_libx86_64dir}"
 
-    install -m 644 chroot/lib64/libinotify.a "${chroot_lib64dir}"
-    install -m 644 chroot/lib64/libinotify.la "${chroot_lib64dir}"
-    install -m 644 chroot/lib64/libinotify.so "${chroot_lib64dir}"
-    install -m 644 chroot/lib64/libinotify.so.0 "${chroot_lib64dir}"
-    install -m 644 chroot/lib64/libinotify.so.0.0.0 "${chroot_lib64dir}"
+	install -m 644 chroot/lib64/libinotify.a "${chroot_lib64dir}"
+	install -m 644 chroot/lib64/libinotify.la "${chroot_lib64dir}"
+	install -m 644 chroot/lib64/libinotify.so "${chroot_lib64dir}"
+	install -m 644 chroot/lib64/libinotify.so.0 "${chroot_lib64dir}"
+	install -m 644 chroot/lib64/libinotify.so.0.0.0 "${chroot_lib64dir}"
 
 #	install -m 0644 linux-chrome.desktop "${appsdir}"
 
+}
+
+build_libbsd()
+{
+	git clone "${libbsd_repo}" "libbsd"
 }
 
 deinstall_obsidian()
