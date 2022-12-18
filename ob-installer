@@ -170,6 +170,8 @@ install_libbsd_kmod()
 {
 	local _libbsd_dir
 
+	currentdir=$(pwd)
+
 	kldstat -n "${libbsd_kmod}" && return
 
 	mkdir -p "${libbsd_dir}"
@@ -182,6 +184,8 @@ install_libbsd_kmod()
 	make install
 
 	kldload "${libbsd_kmod}"
+
+	cd $currentdir
 
 	return
 }
