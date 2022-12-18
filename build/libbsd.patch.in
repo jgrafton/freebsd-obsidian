@@ -20,7 +20,7 @@ index 55ce07f..85e99d6 100644
  .include "../Makefile.sysdir"
  
 -LINUXDIR?=	/compat/linux
-+LINUXDIR?=	/compat/ubuntu
++LINUXDIR?=	@CHROOT_PATH@
  INCSGROUPS=	ROOT RSYS
  
  SYSAUTO=	sys/event.h sys/tree.h
@@ -33,7 +33,7 @@ index 9f0b525..f32fe14 100644
  LIB=		bsd
  
 -LINUXDIR?=	/compat/linux
-+LINUXDIR?=	/compat/ubuntu
++LINUXDIR?=	@CHROOT_PATH@
  
  AUTOSRCS=	devname.c		\
  		strlcat.c		\
