@@ -10,8 +10,9 @@ chroot_bindir="${chroot_path}/bin"
 chroot_libx86_64dir="${chroot_path}/lib/x86_64-linux-gnu"
 chroot_lib64dir="${chroot_path}/lib64"
 
+libbsd_dir="build/libbsd"
 libbsd_repo="https://github.com/wulf7/linux-libbsd.git"
-libbsd_patch="${libbsd_dir}/libbsd.patch"
+libbsd_kmod="linux_libbsd"
 
 obsidian_ver="1.0.3"
 obsidian_deb="obsidian_${obsidian_ver}_amd64.deb"
@@ -136,6 +137,8 @@ install_obsidian()
 		exit 1
 	fi
 
+	install_libbsd_kmod
+
 	fetch -o ${chroot_path} "${obsidian_url}"
 
 	chroot ${chroot_path} /bin/bash -c "apt update"
@@ -163,9 +166,24 @@ install_obsidian()
 
 }
 
-build_libbsd()
+install_libbsd_kmod()
 {
-	git clone "${libbsd_repo}" "libbsd"
+	local _libbsd_dir
+
+	kldstat -n "${libbsd_kmod}" && return
+
+	mkdir -p "${libbsd_dir}"
+
+	_libbsd_dir=$(realpath "${libbsd_dir}")
+	git clone "${libbsd_repo}" "${_libbsd_dir}"
+
+	cd "${_libbsd_dir}/kmod"
+	make
+	make install
+
+	kldload "${libbsd_kmod}"
+
+	return
 }
 
 deinstall_obsidian()
