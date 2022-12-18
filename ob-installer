@@ -124,7 +124,7 @@ install_apt_packages()
 
 build_scripts()
 {
-	for s in $(find bin chroot/bin rc.d build -name "*.in"); do
+	for s in $(find bin chroot/bin rc.d -name "*.in"); do
 		sed -E "s#@CHROOT_PATH@#${chroot_path}#g" < $s > ${s%.in}
 	done
 }

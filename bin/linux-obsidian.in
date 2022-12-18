@@ -1,6 +1,6 @@
 #!/bin/sh
 
-chroot_path=/compat/ubuntu
+chroot_path=@CHROOT_PATH@
 
 ${chroot_path}/bin/obsidian
 
