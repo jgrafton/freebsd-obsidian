@@ -1,4 +1,6 @@
 # freebsd-obsidian
+![Obsidian on FreeBSD](/screenshot.png)
+
 This is a simple script to install the [Obsidian](https://obsidian.md)
 application on a FreeBSD host.
 
