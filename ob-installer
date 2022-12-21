@@ -6,6 +6,7 @@ ubuntu_version=focal
 
 bindir="${prefix}/bin"
 appsdir="${prefix}/share/applications"
+iconsdir="${prefix}/share/icons"
 chroot_bindir="${chroot_path}/bin"
 chroot_libx86_64dir="${chroot_path}/lib/x86_64-linux-gnu"
 chroot_lib64dir="${chroot_path}/lib64"
@@ -144,9 +145,6 @@ install_obsidian()
 	chroot ${chroot_path} /bin/bash -c "apt update"
 	chroot ${chroot_path} /bin/bash -c "dpkg -i /${obsidian_deb}"
 
-#	[ -d "${chroot_path}/${prefix}/share/fonts" ] && \
-#		rmdir "${chroot_path}/${prefix}/share/fonts"
-
 	install -m 555 chroot/bin/obsidian "${chroot_bindir}"
 	install -m 555 bin/linux-obsidian "${bindir}"
 
@@ -199,29 +197,14 @@ deinstall_obsidian()
 	rm -f "${chroot_bindir}/obsidian"
 }
 
+
 symlink_icons()
 {
-	local name i
-	[ ! -d ${chroot_path}/usr/share/icons ] && \
-		mkdir -p ${chroot_path}/usr/share/icons
-	for i in ${prefix}/share/icons/*; do
-		[ ! -d $i ] && continue
-		name=$(basename $i)
-		[ -e ${chroot_path}/usr/share/icons/${name} ] && continue
-		ln -s $i ${chroot_path}/usr/share/icons
-	done
-}
+	local icons i 
+	icons="16x16 32x32 48x48 64x64 128x128 256x256 512x512"
 
-symlink_themes()
-{
-	local name i
-	[ ! -d ${chroot_path}/usr/share/themes ] && \
-		mkdir -p ${chroot_path}/usr/share/themes
-	for i in ${prefix}/share/themes/*; do
-		[ ! -d $i ] && continue
-		name=$(basename $i)
-		[ -e ${chroot_path}/usr/share/themes/${name} ] && continue
-		ln -s $i ${chroot_path}/usr/share/themes
+	echo "${icons}" | tr ' ' '\n' | while read i; do
+		ln -s ${chroot_dir}/usr/share/icons/hicolor/$i/apps/obsidian.png ${iconsdir}/hicolor/$i/apps/linux-obsidian.png 
 	done
 }
 
@@ -262,7 +245,6 @@ install_chroot_base()
 	service ubuntu start
 	install_apt_packages
 	symlink_icons
-	symlink_themes
 }
 
 deinstall_chroot_base()
