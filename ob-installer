@@ -184,6 +184,8 @@ install_libbsd_kmod()
 
 	kldload "${libbsd_kmod}"
 
+	sysrc kld_list+=linux_libbsd
+
 	cd $currentdir
 
 	return
