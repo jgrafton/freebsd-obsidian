@@ -1,16 +1,17 @@
 # freebsd-obsidian
-**NOTE** This is an experimental repo that installs a version of Obsidian that
-technically works but is hampered by several annoying issues outlined in the
-**current status** section below.
+This is a simple script to install the [Obsidian](https://obsidian.md)
+application on a FreeBSD host.
 
-This project borrows heavily from the [linux-browser-install](https://github.com/mrclksr/linux-browser-installer.git) repository
+This project borrows heavily from the
+[linux-browser-install](https://github.com/mrclksr/linux-browser-installer.git)
+repository and will work in conjunction with the browsers installed by it.
 
 ## Requirements:
 * AMD64
   * Obsidian only comes as an amd64 binary, thus this is a hard requirement
 * src installed that matches your running kernel
-  * a prereq for running libinotify for a linux binary is the libbsd kmod
-* I've only tested this on FreeBSD 13.1.
+  * A kmod must be compiled for your local system to support libinotify
+* Tested on FreeBSD 13.1 and 14.0
 
 ## install Obsidian
 ```
@@ -31,9 +32,7 @@ This project borrows heavily from the [linux-browser-install](https://github.com
 Obsidian actually functions (kind of).
 * the linux_libbsd freebsd kernel module needs to be active for libinotify to function properly in the ubuntu chroot
 	* [libbsd](https://github.com/wulf7/linux-libbsd)
-* fonts are messed up a bit in the obsidian app
-* the file browsing dialog does not work properly and appears to be a linux
-    permissions issue I do not understand yet.  If you already have an Obsidian
-    configuration from $HOME/.config/obsidian, you shouldn't require the
-    dialog.
 
+## Google Chrome
+Obsidian will install alongside google chome in `/compat/ubuntu` if you already
+have chrome installed.
