@@ -162,6 +162,7 @@ install_obsidian()
 
 	install -m 0644 linux-obsidian.desktop "${appsdir}"
 
+	symlink_icons
 }
 
 install_libbsd_kmod()
@@ -244,7 +245,6 @@ install_chroot_base()
 	set_timezone
 	service ubuntu start
 	install_apt_packages
-	symlink_icons
 }
 
 deinstall_chroot_base()
