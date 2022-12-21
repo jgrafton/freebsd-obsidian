@@ -205,7 +205,10 @@ symlink_icons()
 	icons="16x16 32x32 48x48 64x64 128x128 256x256 512x512"
 
 	echo "${icons}" | tr ' ' '\n' | while read i; do
-		ln -s ${chroot_dir}/usr/share/icons/hicolor/$i/apps/obsidian.png ${iconsdir}/hicolor/$i/apps/linux-obsidian.png 
+		if [ -e ${iconsdir}/hicolor/$i/apps/linux-obsidian.png ]; then
+			rm ${iconsdir}/hicolor/$i/apps/linux-obsidian.png 
+		fi
+		ln -s ${chroot_path}/usr/share/icons/hicolor/$i/apps/obsidian.png ${iconsdir}/hicolor/$i/apps/linux-obsidian.png 
 	done
 }
 
