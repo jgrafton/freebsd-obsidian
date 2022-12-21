@@ -162,7 +162,7 @@ install_obsidian()
 	install -m 644 chroot/lib64/libinotify.so.0 "${chroot_lib64dir}"
 	install -m 644 chroot/lib64/libinotify.so.0.0.0 "${chroot_lib64dir}"
 
-#	install -m 0644 linux-chrome.desktop "${appsdir}"
+	install -m 0644 linux-obsidian.desktop "${appsdir}"
 
 }
 
@@ -194,7 +194,7 @@ deinstall_obsidian()
 {
 	chroot ${chroot_path} /bin/bash -c "apt remove -y obsidian" || \
 		bail "'apt remove -y obsidian' failed"
-#	rm -f "${appsdir}/linux-chrome.desktop"
+	rm -f "${appsdir}/linux-obsidian.desktop"
 	rm -f "${bindir}/linux-obsidian"
 	rm -f "${chroot_bindir}/obsidian"
 }

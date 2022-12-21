@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Obsidian
+Exec=/usr/local/bin/linux-obsidian
+Terminal=false
+Icon=obsidian
+StartupNotify=true
+Comment=Obsidian
+MimeType=x-scheme-handler/obsidian;
+Categories=Application;Office;
