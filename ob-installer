@@ -2,7 +2,7 @@
 
 prefix=/usr/local
 chroot_path=/compat/ubuntu
-ubuntu_version=jammy
+ubuntu_version=focal
 
 bindir="${prefix}/bin"
 appsdir="${prefix}/share/applications"
