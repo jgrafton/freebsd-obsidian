@@ -23,16 +23,7 @@ repository and will work in conjunction with the browsers installed by it.
 # ./ob-installer deinstall
 ```
 
-## Run Obisidian
+## Run Obsidian
 ```
 /usr/local/bin/linux-obsidian
 ```
-
-## Current Status
-Obsidian actually functions (kind of).
-* the linux_libbsd freebsd kernel module needs to be active for libinotify to function properly in the ubuntu chroot
-	* [libbsd](https://github.com/wulf7/linux-libbsd)
-
-## Google Chrome
-Obsidian will install alongside google chome in `/compat/ubuntu` if you already
-have chrome installed.
