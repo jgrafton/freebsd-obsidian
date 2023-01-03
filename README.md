@@ -89,3 +89,6 @@ Using [ob-installer](ob-installer) to install Obsidian makes the following chang
 
 ## Why not a port?
 Obsidian seems to work best with an Ubuntu chroot image that *as far as I'm aware* is unsupported within ports.  I made an effort to get Obsidian working with the CentOS 7 chroot environment already in ports to no avail.
+
+## Syncing
+I have only used POSIX filesystem compatible syncing software with Obsidian on FreeBSD, specifically [syncthing](https://syncthing.net/).  I do not know if the **Obsidian Sync** service works or not.  Please let me know the status if you get a chance to test it.
