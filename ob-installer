@@ -15,7 +15,7 @@ libbsd_dir="build/libbsd"
 libbsd_repo="https://github.com/wulf7/linux-libbsd.git"
 libbsd_kmod="linux_libbsd"
 
-obsidian_ver="1.0.3"
+obsidian_ver="1.1.9"
 obsidian_deb="obsidian_${obsidian_ver}_amd64.deb"
 obsidian_url="https://github.com/obsidianmd/obsidian-releases/releases/download/v${obsidian_ver}/${obsidian_deb}"
 
