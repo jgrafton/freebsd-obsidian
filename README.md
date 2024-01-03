@@ -9,7 +9,7 @@ This project borrows heavily from the
 repository and works in conjunction with the browsers installed by it.
 
 ## Requirements:
-* FreeBSD 13.1 or 14.0
+* FreeBSD 13.1, 14.0, or 15 CURRENT
   * I've only tested on these, it *may* run on 12.  If you have luck let me know.
 * amd64 cpu 
   * Obsidian only comes as an amd64 binary, thus this is a hard requirement
@@ -18,7 +18,8 @@ repository and works in conjunction with the browsers installed by it.
   * A kmod must be compiled for your local system to support libinotify and requires the running kernel's source
 * X windows
   * Various WMs and Desktops work. I've tested XFCE, i3, and KDE Plasma
-  * I haven't tested this on Wayland and I assume it does not work.
+* Wayland
+  * Sway
 * Internet connectivity for the installation
 
 # Quick Start
