@@ -14,7 +14,7 @@ chroot_lib64dir="${chroot_path}/lib64"
 libbsd_dir="libbsd_kmod"
 libbsd_kmod="linux_libbsd"
 
-obsidian_ver="1.5.3"
+obsidian_ver="1.7.4"
 obsidian_deb="obsidian_${obsidian_ver}_amd64.deb"
 obsidian_url="https://github.com/obsidianmd/obsidian-releases/releases/download/v${obsidian_ver}/${obsidian_deb}"
 
@@ -166,13 +166,11 @@ install_obsidian()
 
 install_libbsd_kmod()
 {
-	local _libbsd_dir
-
 	currentdir=$(pwd)
 
 	kldstat -n "${libbsd_kmod}" && return
 
-	cd "${_libbsd_dir}"
+	cd "${libbsd_dir}"
 	make
 	make install
 
